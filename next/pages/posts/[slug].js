@@ -19,42 +19,63 @@ const Post = (props) => {
         body = []
     } = post || {}
 
-    console.log('post', post)
-
     return (
         <article>
-            <h1>{title}</h1>
-
-
-            {authorImage && (
-                <div>
-                    <img
-                        src={urlFor(authorImage)
-                            .width(50)
-                            .url()}
-                    />
+            <div className="row">
+                <div className="container text-center">
+                    <h1 className="text-6xl font-medium">{title}</h1>
                 </div>
-            )}
+            </div>
+            <div className="row">
+                <div className="container">
 
-            {author ? (
-                <p>by {author}</p>
-            ) : ''}
+                    <div className="grid grid-cols-12">
+                        <div className="col-span-5">
+                            {author ? (
+                                <div className="sticky top-12 flex flex-row gap-8 items-center">
+                                    <div className="w-24 h-24">
+                                        <img
+                                            className="w-full h-full object-cover rounded-full"
+                                            src={urlFor(authorImage)
+                                                .width(200)
+                                                .url()}
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <p className="text-xl">{author}</p>
+                                    </div>
+                                </div>
+                            ) : ''}
+                        </div>
+
+                        <div className="col-span-7">
+                            <div className="w-content">
+                                <PortableText
+                                    value={body}
+                                    components={ptComponents}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
 
             {categories ? (
-                <>
-                    <p>Posted in: </p>
-                    <ul>
-                        {categories.map(category => {
-                            <li key={category}>{category}</li>
-                        })}
-                    </ul>
-                </>
+                <div className="row bg-gray-200">
+                    <div className="container">
+                        <>
+                            <p>Posted in: </p>
+                            <ul>
+                                {categories.map(category => {
+                                    <li key={category}>{category}</li>
+                                })}
+                            </ul>
+                        </>
+                    </div>
+                </div>
             ) : ''}
-
-            <PortableText
-                value={body}
-                components={ptComponents}
-            />
 
         </article>
     )

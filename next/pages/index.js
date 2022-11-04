@@ -1,15 +1,15 @@
-import Link from 'next/link'
 import groq from 'groq'
-import client from '../utils/sanity/client'
-import PostItem from '../components/PostItem'
+import client from '@/utils/sanity/client'
+import PostItem from '@/components/PostItem'
+import GET_SITE_SETTINGS from '@/sanity/queries/GET_SITE_SETTINGS'
+import GET_ALL_POSTS from '@/sanity/queries/GET_ALL_POSTS'
 
 const Index = (props) => {
 
     const {
-        posts
+        posts,
+        siteSettings
     } = props || {}
-
-    console.log('posts', posts)
 
     return (
         <div>
@@ -38,13 +38,14 @@ const Index = (props) => {
     )
 }
 
-const query = groq`*[_type == "post" && publishedAt < now()] | order(publishedAt desc)`
-
 export async function getStaticProps() {
-    const posts = await client.fetch(query)
+    const posts = await client.fetch(groq`${GET_ALL_POSTS}`)
+    const siteSettings = await client.fetch(groq`${GET_SITE_SETTINGS}`)
+
     return {
         props: {
-            posts
+            posts,
+            siteSettings
         }
     }
 }

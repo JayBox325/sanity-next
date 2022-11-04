@@ -10,6 +10,7 @@ import category from './category'
 import post from './post'
 import page from './page'
 import author from './author'
+import siteConfig from './siteConfig'
 import nav from "./nav";
 import navItem from "./navItem";
 import navChildItem from "./navChildItem";
@@ -31,6 +32,7 @@ export default createSchema({
     nav,
     navItem,
     navChildItem,
+    siteConfig,
     link,
 
     // When added to this list, object types can be used as

@@ -6,7 +6,8 @@ export default {
         {
             name: "label",
             type: "string",
-            title: "Title"
+            title: "Title",
+            description: "If you select a page within Sanity, the selected page's title will be used by default."
         },
         {
             name: "navItemUrl",

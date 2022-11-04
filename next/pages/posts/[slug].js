@@ -1,7 +1,7 @@
 // Sanity
-import client from '../../utils/sanity/client'
-import urlFor from '../../utils/sanity/helpers/urlFor'
-import ptComponents from '../../utils/sanity/helpers/ptComponents'
+import client from '@/sanity/client'
+import urlFor from '@/sanity/helpers/urlFor'
+import ptComponents from '@/sanity/helpers/ptComponents'
 import { PortableText } from '@portabletext/react'
 import groq from 'groq'
 

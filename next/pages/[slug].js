@@ -1,6 +1,6 @@
 // Sanity
-import client from '../utils/sanity/client'
-import ptComponents from '../utils/sanity/helpers/ptComponents'
+import client from '@/sanity/client'
+import ptComponents from '@/sanity/helpers/ptComponents'
 import { PortableText } from '@portabletext/react'
 import groq from 'groq'
 
@@ -14,8 +14,6 @@ const Page = (props) => {
         title,
         body = []
     } = page || {}
-
-    console.log('page', page)
 
     return (
         <article>

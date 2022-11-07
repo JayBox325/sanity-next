@@ -10,14 +10,23 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: Rule => Rule.required(),
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
       options: {
-        source: 'title',
-        maxLength: 96,
+        //Change to schema title to automatically populate
+        source: "title",
+        slugify: (input) =>
+          input
+            .toLowerCase()
+            //Remove spaces
+            .replace(/\s+/g, "-")
+            //Remove special characters
+            .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""),
+        validation: (Rule) => Rule.required(),
       },
     },
     {
@@ -32,11 +41,22 @@ export default {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
+      validation: Rule => Rule.required(),
     },
     {
       name: 'body',
       title: 'Body',
       type: 'blockContent',
+    },
+    {
+      name: 'parent',
+      type: 'reference',
+      title: 'Parent',
+      to: { type: 'page' },
+      options: {
+        disableNew: true,
+        filter: '!defined(parent)',
+      },
     },
   ],
 
@@ -44,12 +64,11 @@ export default {
     select: {
       title: 'title',
       media: 'mainImage',
+      subtitle: 'parent.title',
     },
-    prepare(selection) {
-      const {author} = selection
-      return Object.assign({}, selection, {
-        subtitle: author && `by ${author}`,
-      })
-    },
+    prepare: ({title, subtitle}) => ({
+      title,
+      subtitle: subtitle ? `– ${subtitle}` : ``,
+    }),
   },
 }

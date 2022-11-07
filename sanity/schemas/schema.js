@@ -11,7 +11,6 @@ import post from './post'
 import page from './page'
 import author from './author'
 import siteConfig from './siteConfig'
-import nav from "./nav";
 import navItem from "./navItem";
 import navChildItem from "./navChildItem";
 import link from "./link";
@@ -29,7 +28,6 @@ export default createSchema({
     page,
     author,
     category,
-    nav,
     navItem,
     navChildItem,
     siteConfig,

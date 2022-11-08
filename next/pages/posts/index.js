@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import groq from 'groq'
 import client from '@/sanity/client'
-import GET_ALL_POSTS from '@/sanity/queries/GET_ALL_POSTS'
+import GET_ALL_POSTS from '@/utils/sanity/queries/getAllPosts'
 
 const Posts = (props) => {
 

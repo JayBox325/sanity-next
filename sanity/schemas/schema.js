@@ -14,6 +14,9 @@ import siteConfig from './siteConfig'
 import navItem from "./navItem";
 import navChildItem from "./navChildItem";
 import link from "./link";
+import socialNetworks from './socialNetworks'
+import nav from './nav'
+import socialNetwork from './socialNetwork'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -30,6 +33,9 @@ export default createSchema({
     category,
     navItem,
     navChildItem,
+    nav,
+    socialNetwork,
+    socialNetworks,
     siteConfig,
     link,
 

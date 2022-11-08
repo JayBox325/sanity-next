@@ -58,11 +58,10 @@ export default {
       author: 'author.name',
       media: 'mainImage',
     },
-    prepare(selection) {
-      const {author} = selection
-      return Object.assign({}, selection, {
-        subtitle: author && `by ${author}`,
-      })
-    },
-  },
+    prepare: ({ title, media, author }) => ({
+        title,
+        media,
+        subtitle: author ? `by ${author}` : ``,
+    })
+  }
 }

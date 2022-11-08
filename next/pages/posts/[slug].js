@@ -4,6 +4,7 @@ import urlFor from '@/sanity/helpers/urlFor'
 import ptComponents from '@/sanity/helpers/ptComponents'
 import { PortableText } from '@portabletext/react'
 import groq from 'groq'
+import GET_POST_BY_SLUG from '@/utils/sanity/queries/getPostBySlug'
 
 const Post = (props) => {
 
@@ -81,35 +82,28 @@ const Post = (props) => {
     )
 }
 
-const query = groq`*[_type == "post" && slug.current == $slug][0]{
-    title,
-    "author": author->name,
-    "categories": categories[]->title,
-    "authorImage": author->image,
-    body
-}`
-
 export async function getStaticPaths() {
     const paths = await client.fetch(
         groq`*[_type == "post" && defined(slug.current)][].slug.current`
     )
 
     return {
-        paths: paths.map((slug) => ({ params: { slug } })),
+        paths: paths.map((slug) => ({ params: { slug} })),
         fallback: true,
     }
 }
 
 export async function getStaticProps(context) {
     const { slug = "" } = context.params
-    const post = await client.fetch(query, { slug })
+    console.log('sluggg', slug)
+    const post = await client.fetch(GET_POST_BY_SLUG, { slug })
 
     // Send to 404 if no post exists
-    if (!post) {
-        return {
-            notFound: true,
-        }
-    }
+    // if (!post) {
+    //     return {
+    //         notFound: true,
+    //     }
+    // }
 
     return {
         props: {

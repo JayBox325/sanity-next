@@ -19,8 +19,6 @@ function GridItem(props) {
         urlPath = `/posts/${slug.current}`
     }
 
-    console.log('item', item)
-
     return (
         <Link className="bg-gray-200 transition hover:bg-gray-300 rounded-xl p-4 block" href={urlPath}>
             <h3 className="text-xl font-medium">{title}</h3>

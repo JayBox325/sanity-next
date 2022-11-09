@@ -4,6 +4,7 @@ import GridItem from '@/components/GridItem'
 import GET_SITE_SETTINGS from '@/utils/sanity/queries/getSiteSettings'
 import GET_ALL_POSTS from '@/utils/sanity/queries/getAllPosts'
 import GET_ALL_PAGES from '@/utils/sanity/queries/getAllPages'
+import Hero from '@/components/Hero'
 
 const Index = (props) => {
 
@@ -15,6 +16,31 @@ const Index = (props) => {
 
     return (
         <div>
+            <Hero
+                brow="Welcome!"
+                heading="Sanity + Next.JS bootstrap"
+                body={<p>Built to make building Next.js websites with Sanity quicker...</p>}
+                buttons={[
+                    {
+                        label: 'Internal Button URL',
+                        href: '/about'
+                    },
+                    {
+                        label: 'External Button URL (TBC)',
+                        href: 'https://google.com'
+                    },
+                    {
+                        label: 'onClick Event',
+                        onClick: (()=>{alert('clicked this button')})
+                    },
+                    {
+                        label: 'URL + onClick',
+                        href: '/about',
+                        onClick: (()=>{alert('clicked this button')})
+                    }
+                ]}
+            />
+
             <div className="row">
                 <div className="container">
                     <h1>Welcome to a blog!</h1>

@@ -1,0 +1,21 @@
+.row {
+    @apply py-6 md:py-8 lg:py-10 xl:py-12;
+
+    &.bg-white + .bg-white,
+    &.bg-black + .bg-black {
+        @apply pt-0;
+    }
+
+    // Update the list of colours below to match your tailwind colour names
+    
+    $colors: 'red', 'blue', 'green', 'gray';
+    $shades: '50', '100', '200', '300', '400', '500', '600', '700', '800', '900';
+
+    @each $color in $colors {
+        @each $shade in $shades {
+            &.bg-#{$color}-#{$shade} + .bg-#{$color}-#{$shade} {
+                @apply pt-0;
+            }
+        }
+    }
+}

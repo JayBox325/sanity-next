@@ -18,8 +18,6 @@ const Page = (props) => {
         body = []
     } = page || {}
 
-    console.log('router', router.asPath)
-
     return (
         <article>
             <p>Page here</p>
@@ -39,8 +37,6 @@ const Page = (props) => {
 export async function getStaticPaths() {
     const data = await client.fetch(groq`*[_type == "page" && defined(slug.current)][].slug.current`)
 
-    console.log('paths', data)
-
     const paths = data
         .filter(({ slug }) => !!slug)
         .map(({ slug }) => `/${slug}`)
@@ -56,7 +52,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
-    console.log('❌ params', params)
     let slug = params.slug
     if (typeof params.slug == 'array') {
         slug = params.slug.join('/')

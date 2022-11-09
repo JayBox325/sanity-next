@@ -1,33 +1,11 @@
 @tailwind base;
 
-.container {
-    @apply px-6 mx-auto md:px-[4vw];
-}
 
-.row {
-    @apply py-6 md:py-8 lg:py-10 xl:py-12;
+@import './structure/row.scss';
+@import './structure/container.scss';
 
-    + .row {
-        @apply pt-0;
-    }
-}
+@import './typography/rich.scss';
+@import './typography/headings.scss';
 
-.w-content {
-    > * {
-        @apply mb-4;
-
-        &:first-child {
-            @apply mt-0;
-        }
-
-        &:last-child {
-            @apply mb-0;
-        }
-    }
-
-    img {
-        @apply my-14 mx-auto;
-    }
-}
-
+// @tailwind components;
 @tailwind utilities;

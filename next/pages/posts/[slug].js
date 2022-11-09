@@ -95,7 +95,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
     const { slug = "" } = context.params
-    console.log('sluggg', slug)
     const post = await client.fetch(GET_POST_BY_SLUG, { slug })
 
     // Send to 404 if no post exists

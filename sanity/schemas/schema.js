@@ -17,6 +17,8 @@ import link from "./link";
 import socialNetworks from './socialNetworks'
 import nav from './nav'
 import socialNetwork from './socialNetwork'
+import textWithImage from './pageBuilder/textWithImage'
+import bodyText from './pageBuilder/bodyText'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -38,6 +40,10 @@ export default createSchema({
     socialNetworks,
     siteConfig,
     link,
+
+    // Page Builder
+    textWithImage,
+    bodyText,
 
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

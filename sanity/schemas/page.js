@@ -66,13 +66,6 @@ export default {
                 //Change to schema title to automatically populate
                 source: (doc, options) => ({ doc, options }),
                 slugify: asyncSlugifier,
-                // slugify: (input) =>
-                //     input
-                //         .toLowerCase()
-                //         //Remove spaces
-                //         .replace(/\s+/g, "-")
-                //         //Remove special characters
-                //         .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""),
             },
             validation: (Rule) => Rule.required(),
         },

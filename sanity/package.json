@@ -28,6 +28,7 @@
     "react-icons": "^4.6.0",
     "sanity-plugin-asset-source-unsplash": "^0.2.4",
     "sanity-plugin-icon-picker": "^2.0.2",
+    "sanity-plugin-tabs": "^2.1.0",
     "styled-components": "^5.2.0"
   }
 }

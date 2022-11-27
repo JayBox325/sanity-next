@@ -5,6 +5,10 @@ Sanity + Next.js boilerplate for small projects featuring:
 - TailwindCSS
 - Initial Sanity structure
 
+## Sass
+
+- A `.rich` class should wrap any content output from a rich-text field.
+
 ## To do:
 
 - [x] Add ReactIcons to Next.js
@@ -20,3 +24,4 @@ Sanity + Next.js boilerplate for small projects featuring:
 - [ ] Make the navigation title required if the user uses an external link
 - [ ] Update the navigation children preview and indicate if a child exists or not
 - [x] Preview pages with the featured image
+- [ ] Add 'is external link' helper to indentify external URLs

@@ -5,6 +5,9 @@ import ptComponents from '@/sanity/helpers/ptComponents'
 import { PortableText } from '@portabletext/react'
 import groq from 'groq'
 import GET_POST_BY_SLUG from '@/utils/sanity/queries/getPostBySlug'
+import Image from 'next/image'
+import Layout from '@/components/_Layout'
+import PageBuilder from '@/components/_PageBuilder'
 
 const Post = (props) => {
 
@@ -17,68 +20,54 @@ const Post = (props) => {
         author,
         authorImage,
         categories,
-        body = []
+        pageBuilder = []
     } = post || {}
 
     return (
-        <article>
-            <div className="row">
-                <div className="container text-center">
-                    <h1 className="text-6xl font-medium">{title}</h1>
-                </div>
-            </div>
-            <div className="row">
-                <div className="container">
+        <Layout>
+            <article>
 
-                    <div className="grid grid-cols-12">
-                        <div className="col-span-5">
-                            {author ? (
-                                <div className="sticky top-12 flex flex-row gap-8 items-center">
-                                    <div className="w-24 h-24">
-                                        <img
-                                            className="w-full h-full object-cover rounded-full"
-                                            src={urlFor(authorImage)
-                                                .width(200)
-                                                .url()}
-                                        />
-                                    </div>
-                                    <div className="">
-                                        <p className="text-xl">{author}</p>
-                                    </div>
+                <div className="row bg-gray-100">
+                    <div className="container text-center">
+                        <h1 className="text-6xl font-medium">{title}</h1>
+                        {author ? (
+                            <div className="inline-flex mt-8 flex-row gap-4 items-center">
+                                <div className="w-10 h-10">
+                                    <Image
+                                        src={urlFor(authorImage).width(80).height(80).url()}
+                                        className="w-full h-full object-cover rounded-full"
+                                        loading='lazy'
+                                        width='80'
+                                        height='80'
+                                    />
                                 </div>
-                            ) : ''}
-                        </div>
-
-                        <div className="col-span-7">
-                            <div className="w-content">
-                                <PortableText
-                                    value={body}
-                                    components={ptComponents}
-                                />
+                                <div className="">
+                                    <p className="text-xl">{author}</p>
+                                </div>
                             </div>
+                        ) : ''}
+                    </div>
+                </div>
+                        
+                <PageBuilder content={pageBuilder} />
+
+                {categories ? (
+                    <div className="row bg-gray-200">
+                        <div className="container">
+                            <>
+                                <p>Posted in: </p>
+                                <ul>
+                                    {categories.map(category => {
+                                        <li key={category}>{category}</li>
+                                    })}
+                                </ul>
+                            </>
                         </div>
-
                     </div>
+                ) : ''}
 
-                </div>
-            </div>
-
-            {categories ? (
-                <div className="row bg-gray-200">
-                    <div className="container">
-                        <>
-                            <p>Posted in: </p>
-                            <ul>
-                                {categories.map(category => {
-                                    <li key={category}>{category}</li>
-                                })}
-                            </ul>
-                        </>
-                    </div>
-                </div>
-            ) : ''}
-
-        </article>
+            </article>
+        </Layout>
     )
 }
 
@@ -98,11 +87,11 @@ export async function getStaticProps(context) {
     const post = await client.fetch(GET_POST_BY_SLUG, { slug })
 
     // Send to 404 if no post exists
-    // if (!post) {
-    //     return {
-    //         notFound: true,
-    //     }
-    // }
+    if (!post) {
+        return {
+            notFound: true,
+        }
+    }
 
     return {
         props: {

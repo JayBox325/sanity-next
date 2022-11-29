@@ -7,7 +7,7 @@ function PageBuilder(props) {
         content
     } = props || {}
 
-    console.log('content', content)
+    // console.log('content', content)
 
     return (
         <>

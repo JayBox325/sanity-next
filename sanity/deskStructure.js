@@ -1,6 +1,7 @@
 import S from '@sanity/desk-tool/structure-builder'
 import { FaList, FaCogs, FaShareAlt } from 'react-icons/fa'
 import { AiFillDashboard } from 'react-icons/ai'
+import {createDeskHierarchy} from '@sanity/hierarchical-document-list'
 
 export default () =>
     S.list()
@@ -50,13 +51,34 @@ export default () =>
             S.divider(),
 
             // Main content
-            S.listItem()
-                .title('Pages')
-                .schemaType('page')
-                .child(
-                    S.documentTypeList('page')
-                    .title('Pages')
-                ),
+            createDeskHierarchy({
+                title: 'Site pages',
+        
+                // The hierarchy will be stored in this document ID 👇
+                documentId: 'sitePages',
+        
+                // Document types editors should be able to include in the hierarchy
+                referenceTo: ['page'],
+        
+                // ❓ Optional: provide filters and/or parameters for narrowing which documents can be added
+                // referenceOptions: {
+                //   filter: 'status in $acceptedStatuses',
+                //   filterParams: {
+                //     acceptedStatuses: ['published', 'approved']
+                //   }
+                // },
+        
+                // ❓ Optional: limit the depth of your hierarachies
+                maxDept: 3
+              }),
+
+            // S.listItem()
+            //     .title('Pages')
+            //     .schemaType('page')
+            //     .child(
+            //         S.documentTypeList('page')
+            //         .title('Pages')
+            //     ),
 
             S.listItem()
                 .title('News')

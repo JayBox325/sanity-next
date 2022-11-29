@@ -1,18 +1,22 @@
 import groq from 'groq'
-import client from '@/utils/sanity/client'
+import client from '@/sanity/client'
 import GridItem from '@/components/GridItem'
-import GET_SITE_SETTINGS from '@/utils/sanity/queries/getSiteSettings'
-import GET_ALL_POSTS from '@/utils/sanity/queries/getAllPosts'
-import GET_ALL_PAGES from '@/utils/sanity/queries/getAllPages'
+// import GET_SITE_SETTINGS from '@/sanity/queries/getSiteSettings'
+import GET_ALL_POSTS from '@/sanity/queries/getAllPosts'
+import GET_ALL_PAGES from '@/sanity/queries/getAllPages'
 import Hero from '@/components/Hero'
+
+import convertDataToTree from '@/helpers/convertDataToTree'
 
 const Index = (props) => {
 
     const {
         posts,
         pages,
-        siteSettings
+        tree
     } = props || {}
+
+    console.log('Structured pages', tree)
 
     return (
         <div>
@@ -89,13 +93,32 @@ const Index = (props) => {
 export async function getStaticProps() {
     const posts = await client.fetch(groq`${GET_ALL_POSTS}`)
     const pages = await client.fetch(groq`${GET_ALL_PAGES}`)
-    const siteSettings = await client.fetch(groq`${GET_SITE_SETTINGS}`)
+
+    const hierarchyDocument = await client.fetch(groq`
+        *[_id == "sitePages"][0]{
+            tree[] {
+                _key,
+                parent,
+                value {
+                    reference->{
+                        title,
+                        slug,
+                        content,
+                    }
+                }
+            }
+        }
+    `)
+
+
+    // const siteSettings = await client.fetch(groq`${GET_SITE_SETTINGS}`)
 
     return {
         props: {
             posts,
             pages,
-            siteSettings
+            tree: convertDataToTree(hierarchyDocument.tree),
+            // tree
         }
     }
 }

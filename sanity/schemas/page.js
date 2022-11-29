@@ -40,7 +40,6 @@ export default {
             options: {
                 disableNew: true,
                 filter: ({ document }) => {
-                    console.log('filter document', document)
 
                     // Already has been published, so hide this document from the list
                     if (document.publishedAt) {

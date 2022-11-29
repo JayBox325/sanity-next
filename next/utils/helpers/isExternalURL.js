@@ -1,5 +1,5 @@
 const isExternalURL = (url) => {
-    console.log(`Checking if '${url}' is an external url`)
+    // console.log(`Checking if '${url}' is an external url`)
 
     /*
         1. Need to check if it is a valid URL

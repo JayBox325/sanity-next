@@ -14,7 +14,8 @@
     "@sanity/desk-tool",
     "asset-source-unsplash",
     "icon-picker",
-    "tabs"
+    "tabs",
+    "@sanity/hierarchical-document-list"
   ],
   "env": {
     "development": {

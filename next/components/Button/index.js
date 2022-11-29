@@ -13,8 +13,6 @@ function Button(props) {
     //     isExternal = true
     // }
 
-    console.log('button', props)
-
     const className = 'h-14 bg-indigo-500 hover:bg-indigo-800 transition rounded-lg px-6 text-white items-center justify-center inline-flex'
 
     if (href) {

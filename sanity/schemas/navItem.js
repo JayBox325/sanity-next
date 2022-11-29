@@ -37,8 +37,6 @@ export default {
             external
         } = selection
 
-        console.log('internalUrl', internalUrl)
-
         let heading = title
         let subtitle = ''
 

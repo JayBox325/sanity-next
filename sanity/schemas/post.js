@@ -1,5 +1,4 @@
 import { FaNewspaper } from 'react-icons/fa'
-import pageBuilder from './pageBuilder'
 import Tabs from 'sanity-plugin-tabs';
 
 export default {
@@ -56,6 +55,8 @@ export default {
             name: 'publishedAt',
             title: 'Published at',
             fieldset: 'options',
+            initialValue: (new Date()).toISOString(),
+            validation: Rule => Rule.required(),
             type: 'datetime',
         },
         {

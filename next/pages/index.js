@@ -1,25 +1,24 @@
 import groq from 'groq'
 import client from '@/sanity/client'
 import GridItem from '@/components/GridItem'
-// import GET_SITE_SETTINGS from '@/sanity/queries/getSiteSettings'
+import GET_PAGES_STRUCTURE from '@/sanity/queries/getPagesStructure'
 import GET_ALL_POSTS from '@/sanity/queries/getAllPosts'
-import GET_ALL_PAGES from '@/sanity/queries/getAllPages'
 import Hero from '@/components/Hero'
 
 import convertDataToTree from '@/helpers/convertDataToTree'
+import Layout from '@/layout/index'
+import GET_ALL_PAGES from '@/utils/sanity/queries/getAllPages'
 
 const Index = (props) => {
 
     const {
         posts,
         pages,
-        tree
+        tree,
     } = props || {}
 
-    console.log('Structured pages', tree)
-
     return (
-        <div>
+        <Layout navigation={tree}>
             <Hero
                 brow="Welcome!"
                 heading="Sanity + Next.JS bootstrap"
@@ -47,11 +46,6 @@ const Index = (props) => {
 
             <div className="row">
                 <div className="container">
-                    <h1>Welcome to a blog!</h1>
-                </div>
-            </div>
-            <div className="row">
-                <div className="container">
 
                     <h2 className="mb-7">Posts</h2>
 
@@ -66,6 +60,7 @@ const Index = (props) => {
                             ))}
                         </ul>
                     ) : ''}
+                    
                 </div>
                 <div className="row">
                     <div className="container">
@@ -86,39 +81,20 @@ const Index = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Layout>
     )
 }
 
 export async function getStaticProps() {
     const posts = await client.fetch(groq`${GET_ALL_POSTS}`)
     const pages = await client.fetch(groq`${GET_ALL_PAGES}`)
-
-    const hierarchyDocument = await client.fetch(groq`
-        *[_id == "sitePages"][0]{
-            tree[] {
-                _key,
-                parent,
-                value {
-                    reference->{
-                        title,
-                        slug,
-                        content,
-                    }
-                }
-            }
-        }
-    `)
-
-
-    // const siteSettings = await client.fetch(groq`${GET_SITE_SETTINGS}`)
+    const navigation = await client.fetch(groq`${GET_PAGES_STRUCTURE}`)
 
     return {
         props: {
             posts,
             pages,
-            tree: convertDataToTree(hierarchyDocument.tree),
-            // tree
+            tree: convertDataToTree(navigation.tree)
         }
     }
 }

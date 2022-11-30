@@ -25,37 +25,13 @@ export default {
             name: 'publishedAt',
             title: 'Published at',
             type: 'datetime',
+            initialValue: (new Date()).toISOString(),
             validation: Rule => Rule.required(),
         },
         {
             name: 'body',
             title: 'Body',
             type: 'blockContent',
-        },
-        {
-            name: 'parent',
-            type: 'reference',
-            title: 'Parent',
-            to: { type: 'page' },
-            options: {
-                disableNew: true,
-                filter: ({ document }) => {
-
-                    // Already has been published, so hide this document from the list
-                    if (document.publishedAt) {
-
-                        return {
-                            filter: 'slug.current != $slug',
-                            params: {slug: document.slug.current}
-                        }
-                    }
-
-                    // Document isn't published yet, don't need to remove it
-                    return {
-                        filter: '!defined(parent)'
-                    }
-                },
-            },
         },
         {
             name: "slug",

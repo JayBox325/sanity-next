@@ -1,0 +1,16 @@
+const GET_PAGES_STRUCTURE = `*[_id == "sitePages"][0]{
+    tree[] {
+        _key,
+        parent,
+        value {
+            reference->{
+                title,
+                slug
+            }
+        }
+    }
+}`
+
+
+
+export default GET_PAGES_STRUCTURE

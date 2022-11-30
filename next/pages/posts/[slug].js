@@ -1,12 +1,10 @@
 // Sanity
 import client from '@/sanity/client'
 import urlFor from '@/sanity/helpers/urlFor'
-import ptComponents from '@/sanity/helpers/ptComponents'
-import { PortableText } from '@portabletext/react'
 import groq from 'groq'
 import GET_POST_BY_SLUG from '@/utils/sanity/queries/getPostBySlug'
 import Image from 'next/image'
-import Layout from '@/components/_Layout'
+import Layout from '@/layout/index'
 import PageBuilder from '@/components/_PageBuilder'
 
 const Post = (props) => {

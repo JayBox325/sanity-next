@@ -1,6 +1,5 @@
 // Sanity
 import client from '@/sanity/client'
-import ptComponents from '@/sanity/helpers/ptComponents'
 import GET_PAGE_BY_SLUG from '@/utils/sanity/queries/getPageBySlug'
 import { PortableText } from '@portabletext/react'
 import groq from 'groq'
@@ -25,11 +24,6 @@ const Page = (props) => {
 
             <p>{page ? `"${title}" page found` : 'no page found'}</p>
 
-            <PortableText
-                value={body}
-                components={ptComponents}
-            />
-
         </article>
     )
 }
@@ -41,13 +35,6 @@ export async function getStaticPaths() {
         .filter(({ slug }) => !!slug)
         .map(({ slug }) => `/${slug}`)
 
-    // return {
-    //     paths: paths.map((slug) => ({
-    //         params: { slug: slug }
-    //     })),
-    //     fallback: true,
-    // }
-
     return { paths, fallback: true }
 }
 
@@ -56,14 +43,16 @@ export async function getStaticProps({params}) {
     if (typeof params.slug == 'array') {
         slug = params.slug.join('/')
     }
-    const page = await client.fetch(groq`${GET_PAGE_BY_SLUG}`, { slug: slug })
+    const page = await client.fetch(groq`${GET_PAGE_BY_SLUG}`, {
+        slug: slug
+    })
 
-    // Send to 404 if no post exists
-    // if (!page) {
-    //     return {
-    //         notFound: true,
-    //     }
-    // }
+    // Send to 404 if no page exists
+    if (!page) {
+        return {
+            notFound: true,
+        }
+    }
 
     return {
         props: {

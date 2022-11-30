@@ -1,13 +1,19 @@
+import Header from '@/layout/Header'
+
 function Layout(props) {
 
     const {
-        children
+        children,
+        navigation
     } = props || {}
 
     return (
-        <main className="min-h-screen">
-            {children}
-        </main>
+        <>
+            <Header navigation={navigation} />
+            <main className="min-h-screen">
+                {children} xx
+            </main>
+        </>
     )
 }
 

@@ -1,7 +1,9 @@
 // Sanity
+import Layout from '@/components/_Layout'
 import client from '@/sanity/client'
+import convertDataToTree from '@/utils/helpers/convertDataToTree'
+import GET_PAGES_STRUCTURE from '@/sanity/queries/getPagesStructure'
 import GET_PAGE_BY_SLUG from '@/utils/sanity/queries/getPageBySlug'
-import { PortableText } from '@portabletext/react'
 import groq from 'groq'
 import { useRouter } from 'next/router'
 
@@ -9,7 +11,8 @@ const Page = (props) => {
     const router = useRouter()
 
     const {
-        page
+        page,
+        tree
     } = props || {}
 
     const {
@@ -18,13 +21,13 @@ const Page = (props) => {
     } = page || {}
 
     return (
-        <article>
+        <Layout navigation={tree}>
             <p>Page here</p>
             <h1>{title}</h1>
 
             <p>{page ? `"${title}" page found` : 'no page found'}</p>
 
-        </article>
+        </Layout>
     )
 }
 
@@ -47,6 +50,8 @@ export async function getStaticProps({params}) {
         slug: slug
     })
 
+    const navigation = await client.fetch(groq`${GET_PAGES_STRUCTURE}`)
+
     // Send to 404 if no page exists
     if (!page) {
         return {
@@ -56,7 +61,8 @@ export async function getStaticProps({params}) {
 
     return {
         props: {
-            page
+            page,
+            tree: convertDataToTree(navigation.tree)
         }
     }
 }

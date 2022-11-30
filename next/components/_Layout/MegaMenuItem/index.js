@@ -1,13 +1,15 @@
 import Link from "next/link"
 import { useEffect, useState, useRef } from 'react'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiChevronDown,FiChevronLeft,FiChevronRight } from 'react-icons/fi'
 
 function MegaMenuItem(props) {
     const [childIsActive, setChildIsActive] = useState(false)
     const parentItem = useRef(null)
 
     const {
-        item
+        item,
+        menuIsOpen,
+        setMenuIsOpen
     } = props || {}
 
     const {
@@ -15,11 +17,17 @@ function MegaMenuItem(props) {
         children
     } = item || {}
 
+    // Close children when menu is closed
+    useEffect(() => {
+        setChildIsActive(false)
+    }, [menuIsOpen])
+
     useEffect(() => {
         const handleEsc = (event) => {
             if (event.keyCode === 27) {
                 setChildIsActive(false)
                 parentItem?.current?.focus()
+                setMenuIsOpen(false)
             }
         }
 
@@ -31,34 +39,53 @@ function MegaMenuItem(props) {
     }, [])
 
     return (
-        <li>
-            <div>
+        <li className="w-full">
 
-                {children.length ? (
-                    <>
-                        <button ref={parentItem} onClick={() => { setChildIsActive(!childIsActive) }} className="py-2 px-3 inline-flex items-center">
-                            <span>{value.reference.title}</span>
-                            <span className="ml-1 inline-block"><FiChevronDown /></span>
-                        </button>
+            {children.length ? (
+                <>
+                    <button ref={parentItem} onClick={() => {
+                        setChildIsActive(!childIsActive)
+                    }} className="bg-gray-100 flex rounded-md items-center justify-between w-full text-left px-6 py-4 hover:bg-gray-200 transition lg:bg-transparent lg:rounded-none lg:w-auto lg:hover:underline lg:hover:bg-transparent">
+                        <span>{value.reference.title}</span>
+                        <span className="ml-1 inline-block">
+                            <FiChevronRight className="lg:hidden"/>
+                            <FiChevronDown className="hidden lg:block"/>
+                        </span>
+                    </button>
 
-                        <ul className={`absolute top-full left-0 w-screen bg-white shadow py-6 ${childIsActive ? 'block' : 'hidden'}`}>
-                            <div className="container">
-                                <ul className="grid grid-cols-4">
-                                    {children.map((item, n) => {
+                    <ul className={`absolute top-0 left-full bg-white transition-all w-full h-full z-50 p-4 ${childIsActive ? 'visibile -translate-x-full' : 'invisibile translate-x-0'} lg:left-1/2 lg:-translate-x-1/2 lg:top-full lg:bg-red-500 lg:w-screen`}>
+                        <div className="">
 
-                                        const {
-                                            value,
-                                            children
-                                        } = item || {}
+                            <div className="flex flex-row justify-between items-center mb-2 lg:hidden">
+                                <span className="text-3xl">{value.reference.title}</span>
+                                <button
+                                    onClick={() => {
+                                        setChildIsActive(false)
+                                    }}
+                                    className="inline-flex items-center"
+                                >
+                                    <span className="mr-1 inline-block"><FiChevronLeft /></span>
+                                    Back
+                                </button>
+                            </div>
 
-                                        return (
-                                            <li className="col-span-1" key={n}>
-                                                <Link className="inline-block font-bold hover:underline" href={`/${value.reference.slug.current}`}>
-                                                    {value.reference.title}
-                                                </Link>
+                            <ul className="flex flex-col gap-4">
+                                {children.map((item, n) => {
 
-                                                {children.length ? (
-                                                    <ul>
+                                    const {
+                                        value,
+                                        children
+                                    } = item || {}
+
+                                    return (
+                                        <li className="" key={n}>
+                                            <Link onClick={()=>{setMenuIsOpen(false)}} className="py-4 block px-6 hover:bg-gray-200 rounded-md bg-gray-100" href={`/${value.reference.slug.current}`}>
+                                                {value.reference.title}
+                                            </Link>
+
+                                            {children.length ? (
+                                                <div className="absolute top-0 left-full bg-white transition-all w-full h-full z-50">
+                                                    <ul className="">
                                                         {children.map((item, n) => {
 
                                                             const {
@@ -68,7 +95,7 @@ function MegaMenuItem(props) {
 
                                                             return (
                                                                 <li className="" key={n}>
-                                                                    <Link href={`/${value.reference.slug.current}`}>
+                                                                    <Link onClick={()=>{setMenuIsOpen(false)}} href={`/${value.reference.slug.current}`}>
                                                                         {value.reference.title}
                                                                     </Link>
 
@@ -79,23 +106,24 @@ function MegaMenuItem(props) {
                                                             )
                                                         })}
                                                     </ul>
-                                                ) : ''}
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            </div>
-                        </ul>
-                    </>
-                ) : (
-                    <Link
-                        className="py-2 px-3 inline-block"
-                        href={`/${value.reference.slug.current}`}
-                    >
-                        {value.reference.title}
-                    </Link>
-                )}
-            </div>
+                                                </div>
+                                            ) : ''}
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
+                    </ul>
+                </>
+            ) : (
+                <Link
+                    onClick={()=>{setMenuIsOpen(false)}}
+                    className="bg-gray-100 flex rounded-md items-center justify-between w-full text-left px-6 py-4 hover:bg-gray-200 transition lg:bg-transparent lg:rounded-none lg:w-auto lg:hover:underline lg:hover:bg-transparent"
+                    href={`/${value.reference.slug.current}`}
+                >
+                    {value.reference.title}
+                </Link>
+            )}
         </li>
     )
 }

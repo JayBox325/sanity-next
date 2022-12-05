@@ -9,7 +9,6 @@ function GridItem(props) {
         title,
         publishedAt,
         slug,
-        parent = {},
         _type
     } = item || {}
 
@@ -20,8 +19,8 @@ function GridItem(props) {
     }
 
     return (
-        <Link className="bg-gray-200 transition hover:bg-gray-300 rounded-xl p-4 block" href={urlPath}>
-            <h3 className="text-xl font-medium">{title}</h3>
+        <Link className="bg-gray-200 transition hover:bg-gray-300 rounded-xl py-6 px-8 block" href={urlPath}>
+            <h3 className="text-2xl font-medium">{title}</h3>
             <span className="text-sm">{new Date(publishedAt).toDateString()}</span>
         </Link>
     )

@@ -5,10 +5,9 @@ import convertDataToTree from '@/utils/helpers/convertDataToTree'
 import GET_PAGES_STRUCTURE from '@/sanity/queries/getPagesStructure'
 import GET_PAGE_BY_SLUG from '@/utils/sanity/queries/getPageBySlug'
 import groq from 'groq'
-import { useRouter } from 'next/router'
+import Hero from '@/components/Hero'
 
 const Page = (props) => {
-    const router = useRouter()
 
     const {
         page,
@@ -21,12 +20,18 @@ const Page = (props) => {
     } = page || {}
 
     return (
-        <Layout navigation={tree}>
-            <p>Page here</p>
-            <h1>{title}</h1>
-
-            <p>{page ? `"${title}" page found` : 'no page found'}</p>
-
+        <Layout
+            seo={{
+                title: title,
+                description: 'SEO description'
+            }}
+            navigation={tree}
+        >
+            <Hero
+                // brow="Welcome!"
+                heading={title}
+                body={<p>{page ? `"${title}" page found` : 'no page found'}</p>}
+            />
         </Layout>
     )
 }
@@ -43,9 +48,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {
     let slug = params.slug
-    if (typeof params.slug == 'array') {
-        slug = params.slug.join('/')
-    }
     const page = await client.fetch(groq`${GET_PAGE_BY_SLUG}`, {
         slug: slug
     })
